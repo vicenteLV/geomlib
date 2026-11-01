@@ -11,6 +11,7 @@ void clipEar(int i, int& n, std::vector<tPoint>& P) {
     n--;
 }
 
+
 void generateTriangulation(int n, std::vector<tPoint>& P) {
     /*triangulacion iterativa*/
     if (n < 3) return;
@@ -29,8 +30,8 @@ void generateTriangulation(int n, std::vector<tPoint>& P) {
         int next = (i + 1) % n;
 
         if(isConvex(i, n, P) && isDiagonal(prev, next, n, P)){
-            earFound = i;
             break;
+            earFound = i;
         }
     }
 

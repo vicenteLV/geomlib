@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "tPoint.hpp"
+#include "../structs/tPoint.hpp"
 #include "geom_aux.hpp"
 
 void clipEar(int i, int& n, std::vector<tPoint>& P);

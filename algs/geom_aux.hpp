@@ -1,7 +1,7 @@
 #ifndef GEOM_AUX_HPP
 #define GEOM_AUX_HPP
 
-#include "tPoint.hpp"
+#include "../structs/tPoint.hpp"
 
 //primitivas de area y orientacion
 long long area2(tPoint a, tPoint b, tPoint c);
