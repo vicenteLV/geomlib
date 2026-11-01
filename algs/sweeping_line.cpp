@@ -1,5 +1,6 @@
 #include <queue>
 #include <optional>
+#include <variant>
 
 #include "sweeping_line.hpp"
 #include "geom_aux.hpp"
@@ -25,25 +26,43 @@ struct Segmento {
         }
     }
 
-    void slope() {
+    void update_slope() {
         /*calcular el valor de la pendiente, null si los x son iguales*/
         if (p1.x == p2.x) {
             slope = std::nullopt;
         }
 
         else {
-            slope = (p2.y - p1.y) / (p2.x - p1.x);
+            /*static cast para evitar errores en el calculo*/
+            slope = static_cast<double>(p2.y - p1.y) / (p2.x - p1.x);
         }
     }
 
 
+    
+    
     tPoint intersection(Segmento& other);
     
 };
 
+
+tPoint intersection_x_ctte(const Segmento& s1, const Segmento& s2) {
+    /*s1 tiene una pendiente infinita, i.e., x ctte, se debe corroborar antes 
+    de llamar a la funcion que y no sea ctte*/
+    double s2_n = s2.p1.y - (s2.p1.x * s2.slope.value()); 
+
+    double inter_x = s1.p1.x;
+    double inter_y = (inter_x * s2.slope.value()) + s2_n;
+
+    return {inter_x, inter_y};
+}
+
+
 //tipos de eventos para la cola de prioridad Q (eventos)
 enum EventType {UPPER_POINT, INTERSECTION, LOWER_POINT};
 enum IntersectionType {PROPER, IMPROPER};
+
+
 
 
 struct Event {
@@ -51,7 +70,6 @@ struct Event {
     EventType type;
     int seg1_id; //para identificar el segmento
     int seg2_id; //para intersecciones
-    IntersectionType inter_type;  //tipo de interseccion
 
     bool operator<(const Event& other) {
         if(p.y != other.p.y) {

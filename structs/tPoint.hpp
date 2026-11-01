@@ -2,7 +2,8 @@
 #define TPOINT_HPP
 
 struct tPoint {
-    long long x, y;
+    double x, y;
 };
+
 
 #endif
