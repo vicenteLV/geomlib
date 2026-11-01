@@ -9,6 +9,7 @@ struct Segmento {
     tPoint p2;  //siempre extremo inferior
 
     void normalize();
+    void slope();
 };
 
 

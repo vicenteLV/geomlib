@@ -1,6 +1,8 @@
 #include <queue>
+#include <optional>
 
 #include "sweeping_line.hpp"
+#include "geom_aux.hpp"
 
 /*cmp se convierte en una closure, una clase unica para el compilador de c++
 asi se le puede entregar el tipo al tercer parametro de priority_queue
@@ -14,6 +16,7 @@ struct Segmento {
     int id;
     tPoint p1;  //siempre extremo superior
     tPoint p2;  //siempre extremo inferior
+    std::optional<double> slope; //pendiente, std::nulopt si es inf
 
     void normalize() {
         //p1 siempre el extremo izq
@@ -22,8 +25,19 @@ struct Segmento {
         }
     }
 
-    tPoint intersection(Segmento& other);
+    void slope() {
+        /*calcular el valor de la pendiente, null si los x son iguales*/
+        if (p1.x == p2.x) {
+            slope = std::nullopt;
+        }
 
+        else {
+            slope = (p2.y - p1.y) / (p2.x - p1.x);
+        }
+    }
+
+
+    tPoint intersection(Segmento& other);
     
 };
 
@@ -67,7 +81,7 @@ std::vector<Event> sweepingLineIntersections(const std::vector<Segmento>& S) {
 
     //linea de barrido
     std::vector<Segmento> active_segments;
-
+    
 }
 
 
